@@ -34,16 +34,19 @@ func main() {
 
 	// WG определяет группу горутин, которые должны выполняться вместе
 	var wg sync.WaitGroup
+	var mutex sync.Mutex
 	// задаем размер группы
 	wg.Add(len(nums))
 	sum = 0
 	for _, num := range nums {
-		go func(n int, sum *int) {
+		go func(n int, sum *int, mutex *sync.Mutex) {
+			mutex.Lock()
 			// увеличиваем сумму
 			*sum += n * n
+			mutex.Unlock()
 			// уменьшаем группу(счетчик) на 1
 			wg.Done()
-		}(num, &sum)
+		}(num, &sum, &mutex)
 	}
 	// блокируем выполнение main, пока счетчик не будет равен нулю
 	// (пока все горутины не выполнятся)
