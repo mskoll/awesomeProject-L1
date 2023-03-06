@@ -68,20 +68,6 @@ func main() {
 	cancel()
 	wg.Wait()
 
-	// мне кажется более правильно, тк по зпдпнию запись в главном потоке,
-	// но оно не работает (не заверщается)
-	// это запись в канал
-	//for {
-	//	select {
-	//	case ch <- rand.Int():
-	//
-	//	case <-stop:
-	//		fmt.Printf("Signal received\n")
-	//		cancel()
-	//		wg.Wait()
-	//	}
-	//	time.Sleep(time.Second)
-	//}
 }
 
 func worker(ctx context.Context, id int, ch1 chan int) {
